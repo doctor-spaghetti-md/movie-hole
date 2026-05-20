@@ -17,8 +17,9 @@
     "id": "m003",
     "title": "Hackers",
     "submittedBy": "Movie Hole",
-    "selected": false,
-    "addedAt": "2026-05-19T12:02:00.000Z"
+    "selected": true,
+    "addedAt": "2026-05-19T12:02:00.000Z",
+    "selectedAt": "2026-05-20T00:43:04.507Z"
   },
   {
     "id": "m004",
