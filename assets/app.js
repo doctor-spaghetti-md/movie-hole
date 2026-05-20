@@ -90,10 +90,23 @@ function setFormMessage(message, type = ""){
   el.className = `form-message ${type}`;
 }
 
+function showSubmitDialog(){
+  const dialog = document.getElementById("submitDialog");
+  if(dialog?.showModal){
+    dialog.showModal();
+  }else{
+    alert("Movie submitted. It may take a minute before it appears on the Suggestions page.");
+  }
+}
+
 async function submitMovie(event){
   event.preventDefault();
-  const input = document.getElementById("movieTitle");
-  const title = input.value.trim();
+
+  const titleInput = document.getElementById("movieTitle");
+  const nameInput = document.getElementById("submitterName");
+
+  const title = titleInput.value.trim();
+  const submittedBy = nameInput ? nameInput.value.trim() : "";
 
   if(!title){
     setFormMessage("Please enter a movie title.", "error");
@@ -106,11 +119,13 @@ async function submitMovie(event){
     return;
   }
 
+  setFormMessage("Submitting...", "");
+
   try{
     const response = await fetch("/.netlify/functions/add-movie", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({title})
+      body:JSON.stringify({title, submittedBy})
     });
 
     const result = await response.json().catch(() => ({}));
@@ -119,25 +134,14 @@ async function submitMovie(event){
       throw new Error(result.error || "Movie could not be submitted.");
     }
 
-    movies.unshift(result.movie || {
-      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-      title,
-      selected:false,
-      addedAt:new Date().toISOString()
-    });
+    titleInput.value = "";
+    if(nameInput) nameInput.value = "";
 
-    input.value = "";
-    setFormMessage("Movie added to the hole.", "success");
+    setFormMessage("Submitted. It may take a minute before it appears on the Suggestions page.", "success");
+    showSubmitDialog();
+
   }catch(error){
-    // Local preview fallback so it still feels alive before Netlify setup.
-    movies.unshift({
-      id:String(Date.now()),
-      title,
-      selected:false,
-      addedAt:new Date().toISOString()
-    });
-    input.value = "";
-    setFormMessage("Preview mode: movie added on this page. Deploy Netlify functions for permanent saving.", "success");
+    setFormMessage(error.message || "Movie could not be submitted.", "error");
   }
 }
 
@@ -221,6 +225,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const form = document.getElementById("suggestionForm");
   if(form) form.addEventListener("submit", submitMovie);
+
+  document.getElementById("closeSubmitDialog")?.addEventListener("click", () => {
+    document.getElementById("submitDialog")?.close();
+  });
 
   const search = document.getElementById("suggestionSearch");
   if(search){
