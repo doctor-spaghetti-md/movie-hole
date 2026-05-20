@@ -38,9 +38,29 @@
   <h2 class="animated-heading">Suggested for the Hole</h2>
   <p class="page-description">These are the movies that have been suggested and are eligible for bingo hole selection. It's all here.</p>
 
-  <div class="search-panel">
-    <label for="suggestionSearch">Search suggestions</label>
-    <input id="suggestionSearch" class="search-input" type="search" placeholder="Search movies...">
+  <div class="search-panel suggestions-controls">
+    <div class="control-field">
+      <label for="suggestionSearch">Search suggestions</label>
+      <input id="suggestionSearch" class="search-input" type="search" placeholder="Search movies...">
+    </div>
+
+    <div class="control-grid">
+      <div class="control-field">
+        <label for="suggestedByFilter">Filter by who suggested it</label>
+        <select id="suggestedByFilter" class="select-input">
+          <option value="">Everyone</option>
+        </select>
+      </div>
+
+      <div class="control-field">
+        <label for="titleSort">Sort by title</label>
+        <select id="titleSort" class="select-input">
+          <option value="default">Newest first</option>
+          <option value="az">Title A to Z</option>
+          <option value="za">Title Z to A</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <div id="suggestionsStatus" class="status-line">Loading suggestions...</div>
