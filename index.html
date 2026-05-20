@@ -44,17 +44,29 @@
 
     <p><a href="bingo-hole.html">See how the Bingo Hole works here!</a></p>
 
-    <p class="warning-text">The movie chosen from the hole will be played live and simulcast on an emergency broadcast signal.</p>
+    <p class="warning-text">Warning: Lorem Ipsum text for now</p>
   </div>
 
   <form id="suggestionForm" class="suggestion-form" autocomplete="off">
     <label for="movieTitle">Please suggest your movie here.</label>
-    <div class="form-row">
+
+    <div class="field-stack">
+      <input id="submitterName" name="submittedBy" type="text" placeholder="Your name">
       <input id="movieTitle" name="title" type="text" placeholder="Enter a horrible movie title" required>
-      <button type="submit">Submit</button>
     </div>
+
+    <button class="submit-wide" type="submit">Submit Movie</button>
     <p id="formMessage" class="form-message" role="status"></p>
   </form>
+
+  <dialog id="submitDialog" class="submit-dialog">
+    <div class="submit-dialog-inner">
+      <h3>Movie submitted.</h3>
+      <p>Your suggestion has entered the hole.</p>
+      <p class="small-note">It may take a minute before it appears on the Suggestions page.</p>
+      <button id="closeSubmitDialog" class="primary-action" type="button">Okay</button>
+    </div>
+  </dialog>
 </section>
 
 <!-- <section class="content-card mini-links">
