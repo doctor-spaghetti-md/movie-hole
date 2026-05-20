@@ -47,26 +47,66 @@ function formatDate(value){
   }
 }
 
+function getSubmitterName(movie){
+  const name = String(movie.submittedBy || "").trim();
+  return name || "Unknown";
+}
+
+function populateSuggestedByFilter(){
+  const filter = document.getElementById("suggestedByFilter");
+  if(!filter) return;
+
+  const currentValue = filter.value;
+  const names = Array.from(new Set(movies.map(getSubmitterName))).sort((a,b) => a.localeCompare(b));
+
+  filter.innerHTML = `<option value="">Everyone</option>`;
+  names.forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    filter.appendChild(option);
+  });
+
+  if(names.includes(currentValue)){
+    filter.value = currentValue;
+  }
+}
+
 function renderMovieList(targetId, statusId, options = {}){
   const target = document.getElementById(targetId);
   const status = document.getElementById(statusId);
   if(!target) return;
 
   const searchTerm = normalizeTitle(options.search || "");
-  const source = movies.filter(movie => {
+  const suggestedBy = String(options.suggestedBy || "").trim();
+  const sortMode = options.sortMode || "default";
+
+  let source = movies.filter(movie => {
     const selectedMatch = options.onlyEligible ? !movie.selected : true;
     const searchMatch = searchTerm
       ? normalizeTitle(movie.title).includes(searchTerm)
       : true;
-    return selectedMatch && searchMatch;
+    const suggestedByMatch = suggestedBy
+      ? getSubmitterName(movie) === suggestedBy
+      : true;
+
+    return selectedMatch && searchMatch && suggestedByMatch;
   });
+
+  if(sortMode === "az"){
+    source = [...source].sort((a,b) => String(a.title || "").localeCompare(String(b.title || "")));
+  }
+
+  if(sortMode === "za"){
+    source = [...source].sort((a,b) => String(b.title || "").localeCompare(String(a.title || "")));
+  }
 
   target.innerHTML = "";
 
   if(status){
-    status.textContent = source.length
-      ? `${source.length} movie${source.length === 1 ? "" : "s"} on file.`
-      : "No movies found.";
+    const pieces = [`${source.length} movie${source.length === 1 ? "" : "s"} on file`];
+    if(suggestedBy) pieces.push(`suggested by ${suggestedBy}`);
+    status.textContent = source.length ? `${pieces.join(" · ")}.` : "No movies found.";
   }
 
   source.forEach(movie => {
@@ -77,7 +117,7 @@ function renderMovieList(targetId, statusId, options = {}){
         <div class="movie-name">${escapeHtml(movie.title)}</div>
         <div class="movie-state">${movie.selected ? "Selected" : "Eligible"}</div>
       </div>
-      <div class="movie-meta">${movie.submittedBy ? `Suggested by ${escapeHtml(movie.submittedBy)}` : "Suggested movie"}${movie.addedAt ? ` · ${formatDate(movie.addedAt)}` : ""}</div>
+      <div class="movie-meta">Suggested by ${escapeHtml(getSubmitterName(movie))}${movie.addedAt ? ` · ${formatDate(movie.addedAt)}` : ""}</div>
     `;
     target.appendChild(card);
   });
@@ -231,11 +271,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const search = document.getElementById("suggestionSearch");
+  const suggestedByFilter = document.getElementById("suggestedByFilter");
+  const titleSort = document.getElementById("titleSort");
+
   if(search){
-    renderMovieList("suggestionsList", "suggestionsStatus");
-    search.addEventListener("input", () => {
-      renderMovieList("suggestionsList", "suggestionsStatus", {search:search.value});
-    });
+    populateSuggestedByFilter();
+
+    const renderSuggestions = () => {
+      renderMovieList("suggestionsList", "suggestionsStatus", {
+        search: search.value,
+        suggestedBy: suggestedByFilter ? suggestedByFilter.value : "",
+        sortMode: titleSort ? titleSort.value : "default"
+      });
+    };
+
+    renderSuggestions();
+    search.addEventListener("input", renderSuggestions);
+    suggestedByFilter?.addEventListener("change", renderSuggestions);
+    titleSort?.addEventListener("change", renderSuggestions);
   }
 
   if(document.getElementById("bingoList")){
