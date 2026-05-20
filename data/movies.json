@@ -1,0 +1,44 @@
+[
+  {
+    "id": "m001",
+    "title": "Showgirls",
+    "submittedBy": "Movie Hole",
+    "selected": false,
+    "addedAt": "2026-05-19T12:00:00.000Z"
+  },
+  {
+    "id": "m002",
+    "title": "Cats",
+    "submittedBy": "Movie Hole",
+    "selected": false,
+    "addedAt": "2026-05-19T12:01:00.000Z"
+  },
+  {
+    "id": "m003",
+    "title": "Hackers",
+    "submittedBy": "Movie Hole",
+    "selected": false,
+    "addedAt": "2026-05-19T12:02:00.000Z"
+  },
+  {
+    "id": "m004",
+    "title": "The Room",
+    "submittedBy": "Movie Hole",
+    "selected": false,
+    "addedAt": "2026-05-19T12:03:00.000Z"
+  },
+  {
+    "id": "m005",
+    "title": "Twister",
+    "submittedBy": "Movie Hole",
+    "selected": true,
+    "addedAt": "2026-05-19T12:04:00.000Z"
+  },
+  {
+    "id": "m006",
+    "title": "Maximum Overdrive",
+    "submittedBy": "Movie Hole",
+    "selected": false,
+    "addedAt": "2026-05-19T12:05:00.000Z"
+  }
+]
