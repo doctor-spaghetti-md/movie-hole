@@ -1,16 +1,16 @@
 [
   {
     "id": "m_1779237805805",
-    "title": "Passion of the Christ",
+    "title": "Minions",
     "submittedBy": "",
     "selected": false,
     "addedAt": "2026-05-20T00:43:25.805Z"
   },
   {
     "id": "m001",
-    "title": "Showgirls",
+    "title": "Boss Baby",
     "submittedBy": "Movie Hole",
-    "selected": true,
+    "selected": false,
     "addedAt": "2026-05-19T12:00:00.000Z",
     "selectedAt": "2026-05-20T00:43:53.740Z"
   },
@@ -22,32 +22,10 @@
     "addedAt": "2026-05-19T12:01:00.000Z"
   },
   {
-    "id": "m003",
-    "title": "Hackers",
-    "submittedBy": "Movie Hole",
-    "selected": true,
-    "addedAt": "2026-05-19T12:02:00.000Z",
-    "selectedAt": "2026-05-20T00:43:04.507Z"
-  },
-  {
     "id": "m004",
     "title": "The Room",
     "submittedBy": "Movie Hole",
     "selected": false,
     "addedAt": "2026-05-19T12:03:00.000Z"
-  },
-  {
-    "id": "m005",
-    "title": "Twister",
-    "submittedBy": "Movie Hole",
-    "selected": true,
-    "addedAt": "2026-05-19T12:04:00.000Z"
-  },
-  {
-    "id": "m006",
-    "title": "Maximum Overdrive",
-    "submittedBy": "Movie Hole",
-    "selected": false,
-    "addedAt": "2026-05-19T12:05:00.000Z"
   }
 ]
