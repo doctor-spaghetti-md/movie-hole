@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Dr. Spaghetti | Movie Hole</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body>
+  <div class="film-bg"></div>
+<div class="contact-topbar">
+  <a href="index.html" class="back-button">
+    ← Back to Movie Hole
+  </a>
+</div>
+  <main class="page-shell">
+    <section class="content-card">
+      <div class="section-kicker">Spaghetti Communications</div>
+
+      <h1 class="animated-heading">
+        Contact Dr. Spaghetti
+      </h1>
+
+      <p class="page-description">
+   For all questions, legal disputes, or other questions, contact doctor spaghetti. Doctor Spaghetti will respond to you directly from <spam class="site-slogan">doctor.spaghetti@aol.com</spam> so be sure to check your spam folder
+      </p>
+
+      <form id="contactForm" class="suggestion-form">
+        <div class="field-stack">
+          <input
+            id="contactName"
+            type="text"
+            placeholder="Your name"
+            required
+          >
+
+          <input
+            id="contactEmail"
+            type="email"
+            placeholder="Your email"
+            required
+          >
+
+<textarea
+  id="contactMessage"
+  class="contact-message-box"
+  placeholder="Your message"
+  required
+></textarea>
+        </div>
+
+        <button class="submit-wide" type="submit">
+          Send
+        </button>
+
+        <p id="contactStatus" class="form-message"></p>
+      </form>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>Piss in my pants publications, all movies copyright. You can't sue us, our website is only readable with the latest version of browser and some readers with the patented Flash® plugin. all movies listed in this hole are owned by their original owners and distributors, piss in my pants publishes no intellectual property unless otherwise stated.</p>
+  </footer>
+  <script>
+    const form = document.getElementById("contactForm");
+    const statusEl = document.getElementById("contactStatus");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      statusEl.textContent = "Transmitting...";
+
+      try{
+        const response = await fetch("/.netlify/functions/contact-dr-spaghetti", {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            name:document.getElementById("contactName").value,
+            email:document.getElementById("contactEmail").value,
+            message:document.getElementById("contactMessage").value
+          })
+        });
+
+        const result = await response.json();
+
+        if(!response.ok){
+          throw new Error(result.error || "sorry no");
+        }
+
+        form.reset();
+
+        statusEl.textContent =
+          "sent successfully.";
+
+        statusEl.className =
+          "form-message success";
+
+      }catch(error){
+
+        statusEl.textContent =
+          error.message;
+
+        statusEl.className =
+          "form-message error";
+      }
+    });
+  </script>
+</body>
+</html>
